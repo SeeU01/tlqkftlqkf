@@ -1,0 +1,87 @@
+@charset "UTF-8";
+
+li {
+    background-color: #5C7098;
+    display: block;
+    margin-bottom: 80px;
+    margin-top: 100px;
+    padding: 60px 0;
+    border-radius: 4px;
+}
+ul {
+    width : 350px;
+    margin:0px auto;
+    padding: 0;
+    list-style-type: none;
+}
+section {
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+    font-size: 30px;
+}
+a{ 
+    text-decoration-line: none;
+    letter-spacing: 3px;
+}
+footer {
+    background-color: #293552;
+    color: #ffffff;
+    text-align: center;
+    padding: 14px 10px 20px;
+    max-width: cover;
+}
+body {
+    background-color: #f3efe8;
+}
+header {
+    display: flex;
+    text-align: center;
+    justify-content: start;
+    align-items: center;
+    gap: 0px;
+}
+img {
+    max-width: 40%;
+}
+header img {
+    max-width: 130px;
+    height: auto;
+}
+header h1 {
+    margin: 0;
+    font-size: 35px;
+}
+/* 테이블이 화면을 넘어가는 문제를 해결하기 위해 테이블을 스크롤 가능하게 설정 */
+.table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* 터치 스크롤을 부드럽게 함 */
+}
+
+/* 테이블 너비를 100%로 설정하여 부모 요소의 너비에 맞추기 */
+table {
+    width: 100%;
+    table-layout: fixed; /* 테이블 레이아웃을 고정하여 셀 너비가 균일하게 유지됨 */
+}
+
+/* 테이블 헤더와 셀에 유연한 너비 설정 */
+thead, tbody, th, td {
+    box-sizing: border-box;
+}
+
+/* 셀의 기본 너비를 100%로 설정하여 전체 테이블 너비에 맞게 조정 */
+td, th {
+    width: auto;
+}
+
+/* 작은 화면에서 폰트 크기 조정 */
+@media (max-width: 768px) {
+    thead {
+        font-size: 12px;
+    }
+    
+    td, th {
+        font-size: 12px;
+        padding: 8px;
+    }
+}

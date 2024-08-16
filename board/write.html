@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../public/css/write-css.css">
+    <link rel="icon" href="../papa.svg" type="image/svg+xml">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>분실물 등록</title>
+  </head>
+  <body>
+    <header>
+      <h1>
+        <a href="../index.html"><img src="../캡처-removebg-preview (1).png" alt="tlqkf"></a>
+      </h1>
+      <h1>분실물등록</h1>
+    </header>
+    <form id="writeFrm">
+      <div>품목명 : <input type="text" name="subject" /></div>
+      <div>학번/이름 : <input type="text" name="writer" /></div>
+      <div>분실물 특이사항 :<br> <textarea name="content"></textarea></div>
+      <div>비밀번호 (숫자 4자리) : <input type="password" name="password" /></div>
+      <div>사진 첨부 : <input type="file" name="image" accept="image/*" /></div>
+      <input type="submit" style="background-color: #5C7098; color: #ffffff;" value="글작성" />
+      <p id="back"><a href="list.html">리스트로 돌아가기</a></p>
+    </form>
+    <script src="../public/js/write.js"></script>
+  </body>
+  <footer>
+    <div class="foot" style="height: 200px; overflow: hidden">
+      <p><small>
+        @UPSUNG<br>
+        Beta Build Ver.0.1 by 양재영<br>
+        Designed by 김수주, 이슬희</small>
+      </p>
+      </div>
+  </footer>
+</html>
