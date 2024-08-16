@@ -38,9 +38,10 @@ app.post('/api/boards', async (req, res) => {
     res.status(201).json(newBoard);
   } catch (error) {
     console.error('Error creating board:', error);
-    res.status(500).json({ message: 'Failed to create board' });
+    res.status(500).json({ message: 'Failed to create board', error: error.message });
   }
 });
+
 
 // 게시물 목록 조회 API
 app.get('/api/boards', async (req, res) => {
