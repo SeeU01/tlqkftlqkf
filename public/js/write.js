@@ -25,12 +25,17 @@ document.querySelector("#writeFrm").addEventListener("submit", async (e) => {
       }),
     });
 
-    if (!response.ok) throw new Error('Failed to create board');
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to create board');
+    }
+
     const newBoard = await response.json();
+    alert('게시글이 성공적으로 작성되었습니다.');
     location.href = `/board/view?index=${newBoard._id}`;
   } catch (e) {
     alert(e.message);
-    console.error(e);
+    console.error('Error creating board:', e);
   }
 });
 
