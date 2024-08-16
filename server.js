@@ -2,87 +2,58 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
 
-// MongoDB 연결
-mongoose.connect('mongodb://localhost:27017/lost-and-found', {
+// MongoDB 연결 설정
+mongoose.connect('mongodb://localhost:27017/school-board', {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('MongoDB connected');
+}).catch(err => {
+  console.error('MongoDB connection error:', err);
 });
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', () => {
-  console.log('Connected to MongoDB');
-});
-
-// 모델 정의
-const BoardSchema = new mongoose.Schema({
+// 스키마 및 모델 설정
+const boardSchema = new mongoose.Schema({
   subject: String,
   writer: String,
   content: String,
-  date: { type: Date, default: Date.now },
-  views: { type: Number, default: 0 },
   password: String,
   image: String,
-  recovered: { type: Boolean, default: false },
-  recoveredStudentID: String,
-  recoveredName: String,
+  date: { type: Date, default: Date.now }
 });
 
-const Board = mongoose.model('Board', BoardSchema);
+const Board = mongoose.model('Board', boardSchema);
 
-// API 엔드포인트
-app.get('/api/boards', async (req, res) => {
-  const boards = await Board.find();
-  res.json(boards);
-});
-
+// 게시물 생성 API
 app.post('/api/boards', async (req, res) => {
-  const newBoard = new Board(req.body);
-  await newBoard.save();
-  res.json(newBoard);
+  try {
+    const newBoard = new Board(req.body);
+    await newBoard.save();
+    res.status(201).json(newBoard);
+  } catch (error) {
+    console.error('Error creating board:', error);
+    res.status(500).json({ message: 'Failed to create board' });
+  }
 });
 
-app.put('/api/boards/:id', async (req, res) => {
-  const board = await Board.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(board);
+// 게시물 목록 조회 API
+app.get('/api/boards', async (req, res) => {
+  try {
+    const boards = await Board.find().sort({ date: -1 });
+    res.json(boards);
+  } catch (error) {
+    console.error('Error fetching boards:', error);
+    res.status(500).json({ message: 'Failed to fetch boards' });
+  }
 });
 
-app.delete('/api/boards/:id', async (req, res) => {
-  await Board.findByIdAndDelete(req.params.id);
-  res.json({ message: 'Board deleted' });
-});
-
-// HTML 파일 라우팅
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-app.get('/board/write', (req, res) => {
-  res.sendFile(path.join(__dirname, '/board/write.html'));
-});
-
-app.get('/board/list', (req, res) => {
-  res.sendFile(path.join(__dirname, '/board/list.html'));
-});
-
-app.get('/board/view', (req, res) => {
-  res.sendFile(path.join(__dirname, '/board/view.html'));
-});
-
-app.get('/board/modify', (req, res) => {
-  res.sendFile(path.join(__dirname, '/board/modify.html'));
-});
-
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
