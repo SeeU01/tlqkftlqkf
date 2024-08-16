@@ -25,25 +25,16 @@ document.querySelector("#writeFrm").addEventListener("submit", async (e) => {
       }),
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to create board');
+      throw new Error(data.message || 'Failed to create board');
     }
 
-    const newBoard = await response.json();
     alert('게시글이 성공적으로 작성되었습니다.');
-    location.href = `/board/view?index=${newBoard._id}`;
+    location.href = `/board/view?index=${data._id}`;
   } catch (e) {
-    alert(e.message);
+    alert('게시글 작성 실패: ' + e.message);
     console.error('Error creating board:', e);
   }
 });
-
-async function getBase64Image(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
